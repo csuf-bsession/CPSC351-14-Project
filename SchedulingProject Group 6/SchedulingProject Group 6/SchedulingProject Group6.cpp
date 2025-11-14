@@ -50,7 +50,6 @@ struct table
 	int tableid;
 	int arrivaltime;
 	int groupsize;
-	string tablestate;
 
 	table()
 	{
@@ -58,7 +57,6 @@ struct table
 		tableid = 0;
 		arrivaltime = 0;
 		groupsize = 0;
-		string tablestate = "new";
 	}
 
 	//below acts in a way where a table is complete after all of the products are done, 
@@ -68,7 +66,6 @@ struct table
 		int totaltime = 0;
 		for (int i = 0; i < orderlist.size(); i++) {
 			totaltime += orderlist[i].bursttime;
-			cout << orderlist[i].name << endl;
 		}
 		return totaltime;
 	}
@@ -225,9 +222,7 @@ Result run_fcfs(vector<table> tables)
 		while (i < tables.size() && tables[i].arrivaltime <= timenow)
 		{
 			ready.push(tables[i].tableid);
-			cout << endl << "Number of elements before: " << ready.size() << endl;
-			cout << "timenow: " << timenow << endl << endl;
-			cout << tables[i].tableid << endl;
+			cout << "Scanned table (tableid: " << tables[i].tableid << ")" << endl;
 			++i; //move to next unprocessed table
 		}
 
@@ -249,7 +244,6 @@ Result run_fcfs(vector<table> tables)
 		int timestart = max(timenow, t->arrivaltime);
 		int timeend = timestart + t->get_cooking_time();
 		//record cooking interval
-		cout << endl << "Number of elements after: " << ready.size() << endl;
 		schedule.push_back({ pid, timestart, timeend });
 		timenow = timeend; //Time moves forward to when job is finished
 		++completed;
@@ -288,19 +282,16 @@ int main()
 	table1.tableid = 1;
 	table1.arrivaltime = 3;
 	table1.groupsize = 1;
-	table1.tablestate = "new";
 
 	table2.orderlist = { veggies, soda };
 	table2.tableid = 2;
 	table2.arrivaltime = 2;
 	table2.groupsize = 2;
-	table2.tablestate = "new";
 
 	table3.orderlist = { toast,toast,toast,toast };
 	table3.tableid = 3;
 	table3.arrivaltime = 1;
 	table3.groupsize = 3;
-	table3.tablestate = "new";
 
 	stored_maps.push_back(table1);
 	stored_maps.push_back(table2);
